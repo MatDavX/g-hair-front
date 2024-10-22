@@ -33,7 +33,18 @@ export const Icon = {
   squareArrow: lucide.SquareArrowOutUpRight,
   triangleWarn: lucide.TriangleAlert,
   sun: lucide.Sun,
-  moon: lucide.Moon
+  moon: lucide.Moon,
+  logOut: lucide.LogOut,
+  plus: lucide.Plus,
+  leftChevron: lucide.ChevronLeft,
+  rightChevron: lucide.ChevronRight,
+  calculate: lucide.Calculator,
+  dashboard: lucide.LayoutDashboard,
+  clock: lucide.Clock,
+  service: lucide.HandPlatter,
+  notedPad: lucide.NotepadText,
+  gridLayout: lucide.LayoutGrid,
+  stretchHorizontal: lucide.StretchHorizontal,
 };
 
 export type LucideIcon = lucide.LucideIcon;

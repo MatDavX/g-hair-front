@@ -4,17 +4,18 @@ import { TableAvatar } from '@/components/table/avatar';
 import { Cell } from '@/components/table/cell';
 import { HeaderTable } from '@/components/table/header';
 import { Button } from '@/components/ui/button';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
 import React from 'react';
-import { UserProps } from '@/app/api/fake';
 import { RowAction } from './_components/row-action';
 import { DataTable } from '@/components/table/data-table';
 import { InputSearch } from '@/components/table/input-search';
+import type { CostumersRequest } from '@/types/requests';
+import { formatPhoneNumber } from '@/utils/format-number';
 
-const columns: ColumnDef<UserProps>[] = [
+const columns: ColumnDef<CostumersRequest>[] = [
   {
-    accessorKey: 'name',
+    accessorKey: 'nome',
     header: ({ column }) => {
       return <HeaderTable column={column} title="Nome" />;
     },
@@ -22,39 +23,34 @@ const columns: ColumnDef<UserProps>[] = [
       return (
         <Link href={`customers/${row.original.id}`} rel="noopener noreferrer">
           <Cell className="flex items-center gap-2">
-            <TableAvatar name={row.getValue('name')} image="" />
-            {row.getValue('name')}
+            <TableAvatar name={row.getValue('nome')} image="" />
+            {row.getValue('nome')}
           </Cell>
         </Link>
       );
-    }
+    },
   },
   {
-    accessorKey: 'phone',
+    accessorKey: 'telefone',
     header: ({ column }) => {
       return <HeaderTable column={column} title="Telefone" />;
     },
     cell: ({ row }) => {
-      const original = row.getValue('phone') as string;
+      const original = formatPhoneNumber(row.getValue('telefone') as string);
       const apiUrl = 'https://api.whatsapp.com/send?phone=';
-      const number = original
-        .replace('(', '')
-        .replace(')', '')
-        .replace('-', '')
-        .replace(' ', '');
 
       return (
         <Cell>
           <Link
-            href={`${apiUrl}${number}`}
+            href={`${apiUrl}${row.getValue('telefone')}`}
             rel="noopener noreferrer"
             target="_blank"
           >
-            <Button variant={'ghost'}>{row.getValue('phone')}</Button>
+            <Button variant={'ghost'}>{original}</Button>
           </Link>
         </Cell>
       );
-    }
+    },
   },
   {
     accessorKey: 'email',
@@ -62,35 +58,35 @@ const columns: ColumnDef<UserProps>[] = [
       return <HeaderTable column={column} title="E-mail" />;
     },
     cell: ({ row }) => {
-      return <Cell>{row.getValue('email')}</Cell>;
-    }
+      return <Cell>{row.getValue('email') || 'Não possui e-mail'}</Cell>;
+    },
   },
   {
-    accessorKey: 'lastService',
+    accessorKey: 'ultimo_servico',
     header: ({ column }) => (
       <HeaderTable column={column} title="Ultimo serviço" />
     ),
     cell: ({ row }) => {
-      return <Cell>{row.getValue('lastService')}</Cell>;
-    }
+      return <Cell>{row.getValue('ultimo_servico')}</Cell>;
+    },
   },
   {
     id: 'actions',
     cell: ({ row }) => {
       const cell = row.original;
       return <RowAction row={cell} />;
-    }
-  }
+    },
+  },
 ];
 
 type Props = {
-  data: UserProps[];
+  data: CostumersRequest[];
 };
 
 export function TableCustomers({ data }: Props) {
   return (
     <DataTable
-      search={(table) => (
+      search={table => (
         <InputSearch
           table={table}
           options={{ id: 'name', placeholder: 'Busca por nome' }}

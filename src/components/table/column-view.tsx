@@ -18,6 +18,32 @@ interface Props<TData> {
 }
 
 export function ColumnView<TData>({ table }: Props<TData>) {
+  const columnLabels: Record<string, string> = {
+    name: 'Nome',
+    username: 'Nome de Usuário',
+    email: 'Email',
+    phoneNumber: 'Número de Telefone',
+    active: 'Ativo',
+    role: 'Cargo',
+    createdAt: 'Criado Em',
+    updatedAt: 'Atualizado Em',
+    city: 'Cidade',
+    imageLink: 'Imagem',
+    state: 'Estado',
+    title: 'Título',
+    price: 'Preço',
+    content: 'Conteúdo',
+    postCategory: 'Categoria',
+    postImages: 'Imagens',
+    subCategory: 'Sub Categória',
+    post: 'Post',
+    user: 'Usuário',
+    postTextTags: 'Hashtags',
+    postTextMentions: 'Menções',
+    _count: 'Contagem',
+    message: 'Mensagem',
+    objectName: 'Nome do Objeto'
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,8 +57,8 @@ export function ColumnView<TData>({ table }: Props<TData>) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">
-        {/* <DropdownMenuLabel>Esconder Colunas</DropdownMenuLabel>
-        <DropdownMenuSeparator /> */}
+        <DropdownMenuLabel>Esconder Colunas</DropdownMenuLabel>
+        <DropdownMenuSeparator />
         {table
           .getAllColumns()
           .filter(
@@ -48,7 +74,7 @@ export function ColumnView<TData>({ table }: Props<TData>) {
                 onSelect={(e) => e.preventDefault()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >
-                {column.id}
+                {columnLabels[column.id] || column.id}
               </DropdownMenuCheckboxItem>
             );
           })}

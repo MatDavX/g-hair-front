@@ -8,17 +8,17 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { typeSchema, resolver } from './schema';
+import { type typeSchema, resolver } from './schema';
 import InputMask from 'react-input-mask';
-import React from 'react';
+import type React from 'react';
 import { BadgeRequired } from '@/components/badge-required';
-import { UserProps } from '@/app/api/fake';
-import { format } from '@/lib/lib/format-date';
+import type { UserProps } from '@/app/api/fake';
 import { ptBR } from 'date-fns/locale';
+import { api } from '@/lib/fetcher/fetch';
 
 type Props = {
   row: UserProps;
@@ -33,16 +33,15 @@ export function InputForm({ row, setIsOpen }: Props) {
       born: row.born,
       cpf: row.cpf,
       email: row.email,
-      phone: row.phone
-    }
+      phone: row.phone,
+    },
   });
 
   async function onSubmit(data: typeSchema) {
     try {
-      console.log(data);
       setIsOpen(false);
       return toast.success('Alteração realizada com sucesso.', {
-        description: format(new Date(), 'dd LLL, y', { locale: ptBR })
+        description: 'a',
       });
     } catch (error) {
       console.log(error);

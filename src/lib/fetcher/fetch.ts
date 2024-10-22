@@ -20,19 +20,22 @@ type optionsPostProps = {
   body?: BodyInit | null | undefined;
 };
 
-async function fetcher<T>(url: string, options: optionsGetProps): Promise<T> {
+async function fetcher<T>(
+  url: string,
+  options: optionsGetProps = {}
+): Promise<T> {
   const { bearer, cache } = options;
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
       method: 'GET',
       next: {
-        tags: cache
+        tags: cache,
       },
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${bearer}`
-      }
+        Authorization: `Bearer ${bearer}`,
+      },
     });
 
     if (!response.ok) {
@@ -47,20 +50,23 @@ async function fetcher<T>(url: string, options: optionsGetProps): Promise<T> {
   }
 }
 
-async function poster<T>(url: string, options: optionsPostProps): Promise<T> {
+async function poster<T>(
+  url: string,
+  options: optionsPostProps = {}
+): Promise<T> {
   const { bearer, cache, body } = options;
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
       method: 'POST',
       body: body,
       next: {
-        tags: cache
+        tags: cache,
       },
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${bearer}`
-      }
+        Authorization: `Bearer ${bearer}`,
+      },
     });
 
     if (!response.ok) {
@@ -77,5 +83,5 @@ async function poster<T>(url: string, options: optionsPostProps): Promise<T> {
 
 export const api = {
   get: fetcher,
-  post: poster
+  post: poster,
 };

@@ -1,136 +1,129 @@
-'use client';
-import { usePathname } from 'next/navigation';
-import { Button } from '../../../g-hair-front/src/components/ui/button';
-import { Icon } from '@/lib/icons';
-import Link from 'next/link';
-import { ChangeTheme } from '../../../g-hair-front/src/components/ui/change-theme';
+"use client";
+import { usePathname } from "next/navigation";
+import { Button } from "../../../g-hair-front/src/components/ui/button";
+import { Icon } from "@/lib/icons";
+import Link from "next/link";
+import { ChangeTheme } from "./change-theme";
 
 export function Sidebar() {
   const pathname = usePathname();
-  const classNameOptionsMenu = 'mr-2 w-4 h-4';
+  const classNameOptionsMenu = "mr-2 w-4 h-4";
 
   const variantValidation = (value: string) =>
-    pathname == value ? 'secondary' : 'ghost';
+    pathname == value ? "secondary" : "ghost";
 
   const optionsServices = [
     {
-      variant: variantValidation('/scheduling'),
-      path: '/scheduling',
+      variant: variantValidation("/scheduling"),
+      path: "/scheduling",
       icons: <Icon.calendar className={classNameOptionsMenu} />,
-      describe: 'Agendamentos'
+      describe: "Agendamentos",
     },
     {
-      variant: variantValidation('/customers'),
-      path: '/customers',
+      variant: variantValidation("/customers"),
+      path: "/customers",
       icons: <Icon.user className={classNameOptionsMenu} />,
-      describe: 'Clientes'
-    },
-
-    {
-      variant: variantValidation('/pets'),
-      path: '/pets',
-      icons: <Icon.paw className={classNameOptionsMenu} />,
-      describe: 'Pets'
+      describe: "Clientes",
     },
     {
-      variant: variantValidation('/services'),
-      path: '/services',
+      variant: variantValidation("/services"),
+      path: "/services",
       icons: <Icon.file className={classNameOptionsMenu} />,
-      describe: 'Serviços'
-    }
+      describe: "Serviços",
+    },
   ];
 
   const optionsFinance = [
     {
-      variant: variantValidation('/bills'),
-      path: '/bills',
+      variant: variantValidation("/bills"),
+      path: "/bills",
       icons: <Icon.receiveCoins className={classNameOptionsMenu} />,
-      describe: 'Contas'
+      describe: "Contas",
     },
     {
-      variant: variantValidation('/commission'),
-      path: '/commission',
+      variant: variantValidation("/commission"),
+      path: "/commission",
       icons: <Icon.handShake className={classNameOptionsMenu} />,
-      describe: 'Comissões'
+      describe: "Comissões",
     },
 
     {
-      variant: variantValidation('/box'),
-      path: '/box',
+      variant: variantValidation("/box"),
+      path: "/box",
       icons: <Icon.pigBank className={classNameOptionsMenu} />,
-      describe: 'Controle de caixa'
-    }
+      describe: "Controle de caixa",
+    },
   ];
 
   const optionsStocks = [
     {
-      variant: variantValidation('/stock'),
-      path: '/stock',
+      variant: variantValidation("/stock"),
+      path: "/stock",
       icons: <Icon.box className={classNameOptionsMenu} />,
-      describe: 'Controle de estoque'
+      describe: "Controle de estoque",
     },
     {
-      variant: variantValidation('/audit'),
-      path: '/audit',
+      variant: variantValidation("/audit"),
+      path: "/audit",
       icons: <Icon.fileBox className={classNameOptionsMenu} />,
-      describe: 'Auditoria de estoque'
+      describe: "Auditoria de estoque",
     },
     {
-      variant: variantValidation('/buy-nf'),
-      path: '/buy-nf',
+      variant: variantValidation("/buy-nf"),
+      path: "/buy-nf",
       icons: <Icon.openPackage className={classNameOptionsMenu} />,
-      describe: 'Compras e entrada de NF'
+      describe: "Compras e entrada de NF",
     },
     {
-      variant: variantValidation('/multi-stock'),
-      path: '/multi-stock',
+      variant: variantValidation("/multi-stock"),
+      path: "/multi-stock",
       icons: <Icon.package className={classNameOptionsMenu} />,
-      describe: 'Controle de Multi-estoque'
+      describe: "Controle de Multi-estoque",
     },
     {
-      variant: variantValidation('/table'),
-      path: '/table',
+      variant: variantValidation("/table"),
+      path: "/table",
       icons: <Icon.sheet className={classNameOptionsMenu} />,
-      describe: 'Tabela de preços'
-    }
+      describe: "Tabela de preços",
+    },
   ];
   const optionsConfig = [
     {
-      variant: variantValidation('/suppliers'),
-      path: '/suppliers',
+      variant: variantValidation("/suppliers"),
+      path: "/suppliers",
       icons: <Icon.contact className={classNameOptionsMenu} />,
-      describe: 'Fornecedores'
+      describe: "Fornecedores",
     },
     {
-      variant: variantValidation('/brands'),
-      path: '/brands',
+      variant: variantValidation("/brands"),
+      path: "/brands",
       icons: <Icon.pencilRuler className={classNameOptionsMenu} />,
-      describe: 'Marca'
+      describe: "Marca",
     },
     {
-      variant: variantValidation('/bath-grooming'),
-      path: '/bath-grooming',
+      variant: variantValidation("/bath-grooming"),
+      path: "/bath-grooming",
       icons: <Icon.shower className={classNameOptionsMenu} />,
-      describe: 'Banho e tosa'
+      describe: "Banho e tosa",
     },
     {
-      variant: variantValidation('/transport'),
-      path: '/transport',
+      variant: variantValidation("/transport"),
+      path: "/transport",
       icons: <Icon.truck className={classNameOptionsMenu} />,
-      describe: 'Transporte'
+      describe: "Transporte",
     },
     {
-      variant: variantValidation('/report'),
-      path: '/report',
+      variant: variantValidation("/report"),
+      path: "/report",
       icons: <Icon.report className={classNameOptionsMenu} />,
-      describe: 'Relatórios'
+      describe: "Relatórios",
     },
     {
-      variant: variantValidation('/config'),
-      path: '/config',
+      variant: variantValidation("/config"),
+      path: "/config",
       icons: <Icon.config className={classNameOptionsMenu} />,
-      describe: 'Configurações'
-    }
+      describe: "Configurações",
+    },
   ];
 
   return (
@@ -157,7 +150,7 @@ export function Sidebar() {
           </div>
         </div>
         {/* Financeiro */}
-        <div className="px-3 py-2">
+        <div className="px-3 py-2  opacity-15">
           <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
             Financeiro
           </h2>
@@ -165,6 +158,7 @@ export function Sidebar() {
             {optionsFinance.map((items, index) => (
               <Link key={index} legacyBehavior href={items.path}>
                 <Button
+                  disabled
                   //@ts-ignore
                   variant={items.variant}
                   className="w-full justify-start"
@@ -177,7 +171,7 @@ export function Sidebar() {
           </div>
         </div>
         {/* Estoque */}
-        <div className="px-3 py-2">
+        <div className="px-3 py-2 opacity-15">
           <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
             Estoque
           </h2>
@@ -185,6 +179,7 @@ export function Sidebar() {
             {optionsStocks.map((items, index) => (
               <Link key={index} legacyBehavior href={items.path}>
                 <Button
+                  disabled
                   //@ts-ignore
                   variant={items.variant}
                   className="w-full justify-start"
@@ -199,7 +194,7 @@ export function Sidebar() {
         {/* Configurações */}
         <div className="px-3 py-2">
           <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-            Administração{' '}
+            Administração{" "}
           </h2>
           <div className="space-y-1">
             {optionsConfig.map((items, index) => (
@@ -216,7 +211,7 @@ export function Sidebar() {
             ))}
           </div>
         </div>
-        <ChangeTheme />
+        {/* <ChangeTheme /> */}
         {/* Config */}
         {/* <div className="px-3 py-2">
           <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">

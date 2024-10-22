@@ -8,11 +8,10 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
-import { typeSchema, resolver } from './schema';
+import { type typeSchema, resolver } from './schema';
 import InputMask from 'react-input-mask';
 import {
   Dialog,
@@ -21,11 +20,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from '@/components/ui/dialog';
 
 import React from 'react';
 import { BadgeRequired } from '@/components/badge-required';
+import { toast } from 'sonner';
+import { handleSubmit } from './server-action';
+import { useSession } from 'next-auth/react';
+import { LoadingSvg } from '@/components/loading';
 
 export function RegisterDialog() {
   const [enableClose, setEnableClose] = React.useState(false);
@@ -43,7 +46,7 @@ export function RegisterDialog() {
           </DialogDescription>
         </DialogHeader>
         <InputForm setEnableClose={setEnableClose} />
-        <DialogFooter></DialogFooter>
+        {/* <DialogFooter></DialogFooter> */}
       </DialogContent>
     </Dialog>
   );
@@ -54,6 +57,8 @@ type Props = {
 };
 
 export function InputForm({ setEnableClose }: Props) {
+  const [isLoading, setIsLoading] = React.useState(true);
+  const session = useSession();
   const form = useForm<typeSchema>({
     resolver,
     defaultValues: {
@@ -61,32 +66,40 @@ export function InputForm({ setEnableClose }: Props) {
       born: '',
       cpf: '',
       email: '',
-      phone: ''
-    }
+      phone: '',
+    },
   });
 
-  function onSubmit(data: typeSchema) {
-    console.log(data);
-    setEnableClose(false);
-    // people.push({
-    //   id: 2,
-    //   lastService: '-',
-    //   observation: [{ date: '', description: '', id: 2 }],
-    //   tags: [{ color: 'red', description: 'OI', id: 3 }],
-    //   email: data.email,
-    //   born: data.born,
-    //   cpf: data.cpf,
-    //   phone: data.phone,
-    //   name: data.username
-    // });
+  function transformPhoneNumber(number: string) {
+    const numericPhone = number.replace(/\D/g, '');
 
-    return toast('Event has been created', {
-      description: 'Sunday, December 03, 2023 at 9:00 AM',
-      action: {
-        label: 'Undo',
-        onClick: () => console.log('Undo')
+    return numericPhone.length > 11 ? numericPhone.slice(-11) : numericPhone;
+  }
+
+  async function onSubmit(data: typeSchema) {
+    setIsLoading(true);
+    const body = {
+      cliente: {
+        nome: data.username,
+        data_nascimento: data.born,
+        email: data.email,
+        cpf: data.cpf.replace('.', '').replace('.', '').replace('-', ''),
+        telefone: transformPhoneNumber(data.phone),
+      },
+    };
+    try {
+      const res = await handleSubmit(body, session.data?.user?.token as string);
+      if (res) {
+        setEnableClose(false);
+        setIsLoading(false);
+        form.reset();
+        return toast.success('Cliente cadastrado com sucesso');
       }
-    });
+    } catch (error) {
+      setIsLoading(false);
+
+      return toast.error('Erro ao cadastrar cliente');
+    }
   }
 
   return (
@@ -190,8 +203,13 @@ export function InputForm({ setEnableClose }: Props) {
           />
         </div>
 
-        <Button className="w-full" type="submit" form="form-user-register">
-          Salvar
+        <Button
+          disabled={isLoading}
+          className="w-full"
+          type="submit"
+          form="form-user-register"
+        >
+          {isLoading ? <LoadingSvg /> : 'Salvar'}
         </Button>
       </form>
     </Form>

@@ -1,10 +1,14 @@
-import { cn } from '@/lib/utils';
-import React from 'react';
+import { cn } from "@/lib/utils";
+import type React from "react";
 
 type Props = {
   children: React.ReactNode;
   className?: string;
 };
-export function WrapperLayoutInitial({ children, className }: Props) {
-  return <div className={cn('px-6 py-6 w-full', className)}>{children}</div>;
+export function ContentPageFormatter({ children, className }: Props) {
+  return (
+    <div className={cn("flex flex-col gap-4", className)}>
+      {children}
+    </div>
+  );
 }

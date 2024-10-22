@@ -1,4 +1,4 @@
-import { getNameWithSpace } from '@/lib/lib/avatar-format-name';
+import { getNameWithSpace } from '@/lib/fn/avatar-format-name';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 type Props = {

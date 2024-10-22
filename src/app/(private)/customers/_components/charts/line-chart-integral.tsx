@@ -13,8 +13,6 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/ui/chart';
-import { format } from '@/lib/lib/format-date';
-import { ptBR } from 'date-fns/locale';
 const chartData = [
   { month: 'Janeiro', customers: 186 },
   { month: 'Fevereiro', customers: 305 },
@@ -25,7 +23,6 @@ const chartData = [
 ];
 
 export function LineChartCustomersIntegral() {
-  const dateNow = format(new Date(), 'dd LLL, y', { locale: ptBR });
 
   return (
     <Card className="max-w-xs" x-chunk="charts-01-chunk-7">

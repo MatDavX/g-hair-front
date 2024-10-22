@@ -1,29 +1,29 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle
-} from '@/components/ui/dialog';
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  DrawerTitle
-} from '@/components/ui/drawer';
-import { useMediaQuery } from '@/hooks/use-media-query';
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 export function ResponsiveDialog({
   children,
   isOpen,
   setIsOpen,
   title,
-  description
+  description,
 }: {
   children: React.ReactNode;
   isOpen: boolean;
@@ -31,7 +31,7 @@ export function ResponsiveDialog({
   title: string;
   description?: string;
 }) {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
     return (

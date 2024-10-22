@@ -1,24 +1,24 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog';
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { Icon } from '@/lib/icons';
-import React from 'react';
-import { InputForm } from '../alter';
-import Link from 'next/link';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Icon } from "@/lib/icons";
+import React from "react";
+import { InputForm } from "../alter";
+import Link from "next/link";
 
 interface Props {
   row: any;
@@ -39,7 +39,7 @@ export function RowAction({ row }: Props) {
           <DialogHeader>
             <DialogTitle>Cadastro de Cliente</DialogTitle>
             <DialogDescription>
-              Formulário responsável por alterar o cadastro do cliente{' '}
+              Formulário responsável por alterar o cadastro do cliente{" "}
               <span className="text-primary">{row.name}</span>
             </DialogDescription>
           </DialogHeader>

@@ -17,7 +17,6 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/ui/chart';
-import { format } from '@/lib/lib/format-date';
 import { ptBR } from 'date-fns/locale';
 const chartData = [
   { month: 'Janeiro', desktop: 186 },
@@ -36,7 +35,6 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function LineChartCustomers() {
-  const dateNow = format(new Date(), 'dd LLL, y', { locale: ptBR });
 
   return (
     <Card>
@@ -85,7 +83,7 @@ export function LineChartCustomers() {
               Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
             </div>
             <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              Ultima atualização {dateNow}
+              Ultima atualização
             </div>
           </div>
         </div>

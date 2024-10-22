@@ -17,8 +17,6 @@ export function FormName() {
       work: string;
     }>(formData);
 
-    // console.log(formData.);
-    // cookieStore.set('g-pet|form-name', JSON.stringify(formValue));
     return redirect('/register?step=2');
   }
 
