@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button';
-// import { ChangeTheme } from '@/components/change-theme';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { signIn } from '@/lib/auth';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Entrar | G-Hair',
@@ -27,6 +27,7 @@ export default async function Login() {
           {/*eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="./image.png"
+            // biome-ignore lint/a11y/noRedundantAlt: <explanation>
             alt="Background Image"
             className="h-full object-cover"
           />
@@ -65,6 +66,9 @@ export default async function Login() {
             name="password"
           />
           <Button type="submit"> Entrar </Button>
+          <Link className="self-center" href={'/register'}>
+            Criar uma conta
+          </Link>
         </form>
       </div>
     </main>

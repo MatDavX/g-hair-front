@@ -81,8 +81,8 @@ export function InputForm({ setEnableClose }: Props) {
     const body = {
       cliente: {
         nome: data.username,
-        data_nascimento: data.born,
-        email: data.email,
+        data_nascimento: data.born || null,
+        email: data.email || null,
         cpf: data.cpf.replace('.', '').replace('.', '').replace('-', ''),
         telefone: transformPhoneNumber(data.phone),
       },
@@ -91,15 +91,14 @@ export function InputForm({ setEnableClose }: Props) {
       const res = await handleSubmit(body, session.data?.user?.token as string);
       if (res) {
         setEnableClose(false);
-        setIsLoading(false);
         form.reset();
         return toast.success('Cliente cadastrado com sucesso');
       }
     } catch (error) {
-      setIsLoading(false);
-
+      console.log({ error });
       return toast.error('Erro ao cadastrar cliente');
     }
+    setIsLoading(false);
   }
 
   return (
@@ -204,12 +203,12 @@ export function InputForm({ setEnableClose }: Props) {
         </div>
 
         <Button
-          disabled={isLoading}
+          disabled={!isLoading}
           className="w-full"
           type="submit"
           form="form-user-register"
         >
-          {isLoading ? <LoadingSvg /> : 'Salvar'}
+          {!isLoading ? <LoadingSvg /> : 'Salvar'}
         </Button>
       </form>
     </Form>

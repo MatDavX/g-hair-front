@@ -24,7 +24,9 @@ export default async function Page() {
   return (
     <ContentPageFormatter>
       <Header title="Clientes" />
-      <RegisterDialog />
+      <div className="w-fit">
+        <RegisterDialog />
+      </div>
       <Suspense fallback={<TableSkeleton />}>
         <TableCustomers data={response} />
       </Suspense>

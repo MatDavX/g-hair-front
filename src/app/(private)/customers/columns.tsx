@@ -89,7 +89,7 @@ export function TableCustomers({ data }: Props) {
       search={table => (
         <InputSearch
           table={table}
-          options={{ id: 'name', placeholder: 'Busca por nome' }}
+          options={{ id: 'nome', placeholder: 'Busca por nome' }}
         />
       )}
       data={data}
