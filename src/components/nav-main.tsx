@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/sidebar';
 import { usePathname } from 'next/navigation';
 import { validPathName } from '@/utils/valid-pathname';
+import Link from 'next/link';
 
 export function NavMain({
   items,
@@ -28,10 +29,10 @@ export function NavMain({
             asChild
             isActive={validPathName(pathname, item.url)}
           >
-            <a href={item.url}>
+            <Link prefetch href={item.url}>
               <item.icon className="h-4 w-4" />
               <span>{item.title}</span>
-            </a>
+            </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>
       ))}

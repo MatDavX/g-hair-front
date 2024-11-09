@@ -6,6 +6,14 @@ export type CostumersRequest = {
   ultimo_servico: string;
 };
 
+export type SchedulingRequest = {
+  data_hora: string;
+  nome_cliente: string;
+  nome_funcionario: string;
+  nome_tipo_servico: string;
+  valor_tipo_servico: number;
+};
+
 export type BrasilApiCEPRequest = {
   cep: string;
   state: string;

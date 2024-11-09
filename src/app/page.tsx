@@ -1,25 +1,12 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { signIn } from '@/lib/auth';
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Login } from './login';
 
 export const metadata: Metadata = {
   title: 'Entrar | G-Hair',
   description: 'Pagina de login da G-Hair',
 };
 
-export default async function Login() {
-  async function submit(form: FormData) {
-    'use server';
-    console.log(form);
-    await signIn('credentials', {
-      email: form.get('email') as string,
-      password: form.get('password') as string,
-      redirectTo: '/scheduling',
-    });
-  }
+export default async function Page() {
   return (
     <main className="grid grid-cols-3 h-screen">
       <div className="relative h-full">
@@ -46,30 +33,10 @@ export default async function Login() {
         </p>
       </article>
       <div className="h-full p-10">
-        <form
-          className="justify-center h-full w-11/12 flex flex-col gap-4"
-          action={submit}
-        >
-          <p className="text-2xl font-semibold">
-            Seja-bem vindo! ao <span className="text-primary">G-Hair</span>
-          </p>
-          <Label title="Email" htmlFor="email">
-            E-mail
-          </Label>
-          <Input type="email" name="email" placeholder="Insira seu email" />
-          <Label title="Senha" htmlFor="password">
-            Senha
-          </Label>
-          <Input
-            type="password"
-            placeholder="Insira uma senha"
-            name="password"
-          />
-          <Button type="submit"> Entrar </Button>
-          <Link className="self-center" href={'/register'}>
+        <Login />
+        {/* <Link className="self-center" href={'/register'}>
             Criar uma conta
-          </Link>
-        </form>
+          </Link> */}
       </div>
     </main>
   );

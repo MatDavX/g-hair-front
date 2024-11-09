@@ -1,9 +1,9 @@
-import { Icon } from "@/lib/icons";
+import { Icon } from '@/lib/icons';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "./ui/collapsible";
+} from './ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -11,9 +11,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "./ui/sidebar";
-import { validPathName } from "@/utils/valid-pathname";
-import { usePathname } from "next/navigation";
+} from './ui/sidebar';
+import { validPathName } from '@/utils/valid-pathname';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 type Props = {
   item: {
@@ -51,7 +52,7 @@ export function NavCollapse({ item }: Props) {
         <CollapsibleContent className="pl-2">
           <SidebarGroupContent>
             <SidebarMenu>
-              {item.items.map((item) => (
+              {item.items.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -64,10 +65,10 @@ export function NavCollapse({ item }: Props) {
                     className="data-[disabled=true]:opacity-50"
                     isActive={validPathName(pathname as string, item.url)}
                   >
-                    <a href={item.url}>
+                    <Link prefetch href={item.url}>
                       <item.icon className="h-4 w-4" />
                       {item.title}
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

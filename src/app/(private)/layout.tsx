@@ -1,24 +1,32 @@
 import { SidebarLeft } from '@/components/sidebar-left';
-import { SidebarRight } from '@/components/sidebar-right';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { headers } from 'next/headers';
 
 import type React from 'react';
 import { AppearScheduler } from './_components/appear-scheduler';
-import { auth } from '@/lib/auth';
 import { Case, Default, Switch } from '@/components/condition-component';
+import { Button } from '@/components/ui/button';
+import { signOut, useSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
+import { auth } from '@/lib/auth';
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
+  const session = await getServerSession(auth);
   console.log(session);
+  async function handleSubmit() {
+    'use server';
+    await signOut();
+  }
   return (
     <Switch>
-      <Case condition={!session}>
-        <p>Usuário sem autorização</p>
+      <Case condition={!true}>
+        <form onSubmit={handleSubmit}>
+          <p>Usuário sem autorização</p>
+          <Button type="submit"> Voltar </Button>
+        </form>
       </Case>
       <Default>
         <SidebarProvider>

@@ -1,11 +1,23 @@
 {
   "node": {
-    "7393b2ac2893622065c3de3b4d0d05d133e0c479": {
+    "8d68fbb9861a6eef0a3f4f24181de3dae625dd83": {
       "workers": {
-        "app/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fluisdavel%2FDocuments%2FGitHub%2Fg-hair-front%2Fsrc%2Fapp%2Fpage.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!"
+        "app/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fluisdavel%2FDocuments%2FGitHub%2Fg-hair-front%2Fsrc%2Fapp%2Flogin.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!"
       },
       "layer": {
         "app/page": "rsc"
+      }
+    },
+    "0b75d902e369d96f8c2095aa44ab4ab262a5e9b9": {
+      "workers": {
+        "app/(private)/customers/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fluisdavel%2FDocuments%2FGitHub%2Fg-hair-front%2Fsrc%2Fapp%2F(private)%2Flayout.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!",
+        "app/(private)/dashboard/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fluisdavel%2FDocuments%2FGitHub%2Fg-hair-front%2Fsrc%2Fapp%2F(private)%2Flayout.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!",
+        "app/(private)/scheduling/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fluisdavel%2FDocuments%2FGitHub%2Fg-hair-front%2Fsrc%2Fapp%2F(private)%2Flayout.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/(private)/customers/page": "rsc",
+        "app/(private)/dashboard/page": "rsc",
+        "app/(private)/scheduling/page": "rsc"
       }
     },
     "1e1f9fea22c955acbcde5a4b007f712cc3801e8b": {
@@ -18,5 +30,5 @@
     }
   },
   "edge": {},
-  "encryptionKey": "HKEGevnFKxwBUWuyVNlH59jj1zpG0DOUnCDxOBa3Ft4="
+  "encryptionKey": "q4ddNbwl4KP7vNRDWJ9SH+a23CNuyjxaChKo9+7e1/Y="
 }

@@ -1,18 +1,9 @@
-import NextAuth, { CredentialsSignin, type DefaultSession } from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-import Github from 'next-auth/providers/github';
+import NextAuth, { type DefaultSession } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+
 import { signInSchema } from './zod/signIn-schema';
 import { api } from './fetcher/fetch';
-import { redirect } from 'next/navigation';
-import { ZodError } from 'zod';
-class CustomError extends CredentialsSignin {
-  constructor(code: string) {
-    super();
-    this.code = code;
-    this.message = code;
-    this.stack = undefined;
-  }
-}
+
 type UserProps = {
   id: string;
   token: string;
@@ -32,18 +23,20 @@ declare module 'next-auth' {
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    Github,
-    Credentials({
+    CredentialsProvider({
+      name: 'Credentials',
       credentials: {
         email: {},
         password: {},
       },
       async authorize(credentials) {
         try {
-          let user = null;
-
           const { email, password } =
             await signInSchema.parseAsync(credentials);
+
+          if (!email || !password) {
+            throw new Error('Por favor, insira seu nome de usuário e senha.');
+          }
 
           const body = {
             email: email,
@@ -54,6 +47,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             body: JSON.stringify(body),
           });
 
+          if (!data) throw new Error('Falha ao buscar dados do perfil.');
+
           const me = await api.get<{
             id: string;
             email: string;
@@ -61,42 +56,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }>('/me', {
             bearer: data.token,
           });
-
-          user = {
+          if (!me) throw new Error('Falha ao buscar dados do perfil.');
+          return {
             id: me.id,
-            name: me.responsavel,
+            name: me.email,
             email: me.email,
-            role: 'admin',
             token: data.token,
+            role: 'ADMIN',
           };
-
-          if (!user) {
-            throw new Error('Usuário não encontrado.');
-          }
-
-          return user;
         } catch (error: any) {
-          console.error('Error:', error);
-          if (error instanceof ZodError) {
-            throw new CustomError('invalid_schema');
-          }
-          throw new CustomError(error.message);
+          throw new Error('Falha ao buscar dados do perfil.');
         }
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role;
         token.token = user.token;
       }
       return token;
     },
-    session({ session, token }) {
+    async session({ session, token }) {
       session.user.id = token.id as string;
-      session.user.role = token.role as string;
       session.user.token = token.token as string;
       return session;
     },
