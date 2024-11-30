@@ -29,6 +29,7 @@ import { toast } from 'sonner';
 import { handleSubmit } from './server-action';
 import { useSession } from 'next-auth/react';
 import { LoadingSvg } from '@/components/loading';
+import { transformPhoneNumber } from '@/utils/transform-number-phone';
 
 export function RegisterDialog() {
   const [enableClose, setEnableClose] = React.useState(false);
@@ -70,12 +71,6 @@ export function InputForm({ setEnableClose }: Props) {
     },
   });
 
-  function transformPhoneNumber(number: string) {
-    const numericPhone = number.replace(/\D/g, '');
-
-    return numericPhone.length > 11 ? numericPhone.slice(-11) : numericPhone;
-  }
-
   async function onSubmit(data: typeSchema) {
     setIsLoading(true);
     const body = {
@@ -83,10 +78,12 @@ export function InputForm({ setEnableClose }: Props) {
         nome: data.username,
         data_nascimento: data.born || null,
         email: data.email || null,
-        cpf: data.cpf.replace('.', '').replace('.', '').replace('-', ''),
+        cpf:
+          data?.cpf?.replace('.', '').replace('.', '').replace('-', '') || null,
         telefone: transformPhoneNumber(data.phone),
       },
     };
+    console.log({ body });
     try {
       const res = await handleSubmit(body, session.data?.user?.token as string);
       if (res) {
@@ -96,6 +93,8 @@ export function InputForm({ setEnableClose }: Props) {
       }
     } catch (error) {
       console.log({ error });
+      setIsLoading(false);
+
       return toast.error('Erro ao cadastrar cliente');
     }
     setIsLoading(false);
@@ -147,9 +146,7 @@ export function InputForm({ setEnableClose }: Props) {
             name="cpf"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  CPF <BadgeRequired />
-                </FormLabel>
+                <FormLabel>CPF</FormLabel>
                 <FormControl>
                   <InputMask
                     mask="999.999.999-99"

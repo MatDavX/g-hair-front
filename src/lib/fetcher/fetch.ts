@@ -81,7 +81,69 @@ async function poster<T>(
   }
 }
 
+async function patch<T>(
+  url: string,
+  options: optionsPostProps = {}
+): Promise<T> {
+  const { bearer, cache, body } = options;
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+      method: 'PUT',
+      body: body,
+      next: {
+        tags: cache,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${bearer}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const data: T = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Fetcher error:', error);
+    throw error;
+  }
+}
+async function patchInactive<T>(
+  url: string,
+  options: optionsPostProps = {}
+): Promise<T> {
+  const { bearer, cache, body } = options;
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+      method: 'PUT',
+      body: body,
+      next: {
+        tags: cache,
+      },
+      headers: {
+        Authorization: `Bearer ${bearer}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const data: T = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Fetcher error:', error);
+    throw error;
+  }
+}
+
 export const api = {
   get: fetcher,
   post: poster,
+  put: patch,
+  inative: patchInactive,
 };

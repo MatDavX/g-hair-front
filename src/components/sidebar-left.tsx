@@ -1,50 +1,50 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { AudioWaveform, Command, MessageCircleQuestion } from "lucide-react";
+import type * as React from 'react';
+import { AudioWaveform, Command, MessageCircleQuestion } from 'lucide-react';
 
-import { NavMain } from "@/components/nav-main";
-import { NavSecondary } from "@/components/nav-secondary";
-import { TeamSwitcher } from "@/components/team-switcher";
+import { NavMain } from '@/components/nav-main';
+import { NavSecondary } from '@/components/nav-secondary';
+import { TeamSwitcher } from '@/components/team-switcher';
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
-} from "@/components/ui/sidebar";
-import { Icon } from "@/lib/icons";
-import { NavCollapse } from "./nav-collapse";
+} from '@/components/ui/sidebar';
+import { Icon } from '@/lib/icons';
+import { NavCollapse } from './nav-collapse';
 
 const data = {
   navContent: [
     {
-      title: "Cadastros",
+      title: 'Cadastros',
       isExpanded: true,
       items: [
         {
-          title: "Clientes",
+          title: 'Clientes',
           icon: Icon.user,
-          url: "/customers",
+          url: '/customers',
         },
         {
-          title: "Funcionários",
+          title: 'Funcionários',
           icon: Icon.contact,
-          url: "#",
+          url: '/employees',
         },
         {
-          title: "Serviços",
+          title: 'Serviços',
           icon: Icon.file,
-          url: "#",
+          url: '/services',
         },
       ],
     },
     {
-      title: "Financeiro",
+      title: 'Financeiro',
       isExpanded: false,
       items: [
         {
-          title: "Comissões",
+          title: 'Comissões',
           icon: Icon.pigBank,
-          url: "#",
+          url: '#',
           disabled: true,
         },
       ],
@@ -52,52 +52,52 @@ const data = {
   ],
   teams: [
     {
-      name: "Cabeleria1",
+      name: 'Cabeleria1',
       logo: Command,
-      plan: "Enterprise",
+      plan: 'Enterprise',
     },
     {
-      name: "Cabeleria2",
+      name: 'Cabeleria2',
       logo: AudioWaveform,
-      plan: "Startup",
+      plan: 'Startup',
     },
     {
-      name: "Cabeleria3.",
+      name: 'Cabeleria3.',
       logo: Command,
-      plan: "Free",
+      plan: 'Free',
     },
   ],
   navMain: [
     {
-      title: "Agendamento",
-      url: "/scheduling",
+      title: 'Agendamento',
+      url: '/scheduling',
       icon: Icon.calendar,
     },
     {
-      title: "Caixa",
-      url: "/calculator",
+      title: 'Caixa',
+      url: '/calculator',
       icon: Icon.calculate,
     },
     {
-      title: "Dashboard",
-      url: "/dashboard",
+      title: 'Dashboard',
+      url: '/dashboard',
       icon: Icon.dashboard,
     },
   ],
   navFooter: [
     {
-      title: "Configurações",
-      url: "#",
+      title: 'Configurações',
+      url: '#',
       icon: Icon.config,
     },
     {
-      title: "Relatórios",
-      url: "#",
+      title: 'Relatórios',
+      url: '#',
       icon: Icon.report,
     },
     {
-      title: "Ajuda",
-      url: "#",
+      title: 'Ajuda',
+      url: '#',
       icon: MessageCircleQuestion,
     },
   ],
@@ -113,7 +113,7 @@ export function SidebarLeft({
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        {data.navContent.map((item) => (
+        {data.navContent.map(item => (
           <NavCollapse key={item.title} item={item} />
         ))}
         <NavSecondary items={data.navFooter} className="mt-auto" />

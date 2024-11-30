@@ -16,38 +16,55 @@ import { type typeSchema, resolver } from './schema';
 import InputMask from 'react-input-mask';
 import type React from 'react';
 import { BadgeRequired } from '@/components/badge-required';
-import type { UserProps } from '@/app/api/fake';
-import { ptBR } from 'date-fns/locale';
-import { api } from '@/lib/fetcher/fetch';
+import { handlePatch } from './server-action';
+import { useSession } from 'next-auth/react';
+import type { CostumersRequest } from '@/types/requests';
+import { transformPhoneNumber } from '@/utils/transform-number-phone';
 
 type Props = {
-  row: UserProps;
+  row: CostumersRequest;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function InputForm({ row, setIsOpen }: Props) {
+  const session = useSession();
+
   const form = useForm<typeSchema>({
     resolver,
     defaultValues: {
-      username: row.name,
-      born: row.born,
-      cpf: row.cpf,
-      email: row.email,
-      phone: row.phone,
+      username: row.nome || '',
+      born: row.data_nascimento?.toDateString(),
+      cpf: row.cpf || '',
+      email: row.email || '',
+      phone: row.telefone || '',
     },
   });
 
   async function onSubmit(data: typeSchema) {
+    const body = {
+      nome: data.username,
+      data_nascimento: data.born,
+      email: data.email,
+      telefone: transformPhoneNumber(data.phone),
+      cpf: data.cpf,
+      ativo: true,
+    };
     try {
-      setIsOpen(false);
-      return toast.success('Alteração realizada com sucesso.', {
-        description: 'a',
-      });
+      const res = await handlePatch(
+        body,
+        row.id,
+        session.data?.user?.token as string
+      );
+      if (res) {
+        setIsOpen(false);
+        form.reset();
+        return toast.success('Alteração realizada com sucesso.');
+      }
     } catch (error) {
       console.log(error);
     }
   }
-
+  console.log(form.formState.errors);
   return (
     <Form {...form}>
       <form
@@ -93,9 +110,7 @@ export function InputForm({ row, setIsOpen }: Props) {
             name="cpf"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  CPF <BadgeRequired />
-                </FormLabel>
+                <FormLabel>CPF</FormLabel>
                 <FormControl>
                   <InputMask
                     mask="999.999.999-99"

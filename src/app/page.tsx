@@ -13,12 +13,13 @@ export const metadata: Metadata = {
 export default async function Login() {
   async function submit(form: FormData) {
     'use server';
-    console.log(form);
-    await signIn('credentials', {
+    const rest = await signIn('credentials', {
       email: form.get('email') as string,
       password: form.get('password') as string,
       redirectTo: '/scheduling',
     });
+
+    console.log(rest);
   }
   return (
     <main className="grid grid-cols-3 h-screen">

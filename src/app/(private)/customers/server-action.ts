@@ -1,8 +1,6 @@
 'use server';
 
 import { api } from '@/lib/fetcher/fetch';
-import type { typeSchema } from './schema';
-import { auth } from '@/lib/auth';
 import { revalidateTag } from 'next/cache';
 
 export async function handleSubmit(
@@ -11,7 +9,7 @@ export async function handleSubmit(
       nome: string;
       data_nascimento: string | null;
       email: string | null;
-      cpf: string;
+      cpf: string | null;
       telefone: string;
     };
   },
@@ -26,6 +24,44 @@ export async function handleSubmit(
     return response;
   } catch (error) {
     console.log({ error });
+    return error;
+  }
+}
+
+export async function handleDelete(id: string, token: string) {
+  try {
+    const response = await api.put(`/clientes/inativar/${id}`, {
+      bearer: token,
+    });
+    revalidateTag('customers-cache');
+    return response;
+  } catch (error) {
+    console.log({ error });
+    return error;
+  }
+}
+
+export async function handlePatch(
+  body: {
+    nome: string;
+    data_nascimento: string | undefined;
+    email: string | undefined;
+    cpf: string | undefined;
+    telefone: string;
+    ativo: boolean;
+  },
+  id: string,
+  token: string
+) {
+  try {
+    const response = await api.put(`/clientes/${id}`, {
+      body: JSON.stringify(body),
+      bearer: token,
+    });
+    revalidateTag('customers-cache');
+    return response;
+  } catch (error) {
+    console.error({ error });
     return error;
   }
 }

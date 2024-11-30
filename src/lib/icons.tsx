@@ -45,6 +45,7 @@ export const Icon = {
   notedPad: lucide.NotepadText,
   gridLayout: lucide.LayoutGrid,
   stretchHorizontal: lucide.StretchHorizontal,
+  trash: lucide.Trash,
 };
 
 export type LucideIcon = lucide.LucideIcon;

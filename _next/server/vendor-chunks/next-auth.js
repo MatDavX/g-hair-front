@@ -81,16 +81,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "(rsc)/./node_modules/next-auth/providers/github.js":
-/*!****************************************************!*\
-  !*** ./node_modules/next-auth/providers/github.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* reexport safe */ _auth_core_providers_github__WEBPACK_IMPORTED_MODULE_0__[\"default\"])\n/* harmony export */ });\n/* harmony import */ var _auth_core_providers_github__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @auth/core/providers/github */ \"(rsc)/./node_modules/@auth/core/providers/github.js\");\n\n\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9ub2RlX21vZHVsZXMvbmV4dC1hdXRoL3Byb3ZpZGVycy9naXRodWIuanMiLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBNEM7QUFDVSIsInNvdXJjZXMiOlsid2VicGFjazovL215LWFwcC8uL25vZGVfbW9kdWxlcy9uZXh0LWF1dGgvcHJvdmlkZXJzL2dpdGh1Yi5qcz84OGI1Il0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCAqIGZyb20gXCJAYXV0aC9jb3JlL3Byb3ZpZGVycy9naXRodWJcIjtcbmV4cG9ydCB7IGRlZmF1bHQgfSBmcm9tIFwiQGF1dGgvY29yZS9wcm92aWRlcnMvZ2l0aHViXCI7XG4iXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(rsc)/./node_modules/next-auth/providers/github.js\n");
-
-/***/ }),
-
 /***/ "(rsc)/./node_modules/next-auth/react.js":
 /*!*****************************************!*\
   !*** ./node_modules/next-auth/react.js ***!

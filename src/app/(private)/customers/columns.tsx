@@ -67,13 +67,14 @@ const columns: ColumnDef<CostumersRequest>[] = [
       <HeaderTable column={column} title="Ultimo serviço" />
     ),
     cell: ({ row }) => {
-      return <Cell>{row.getValue('ultimo_servico')}</Cell>;
+      return <Cell>{row.getValue('ultimo_servico') || '-'}</Cell>;
     },
   },
   {
     id: 'actions',
     cell: ({ row }) => {
       const cell = row.original;
+      console.log(cell);
       return <RowAction row={cell} />;
     },
   },

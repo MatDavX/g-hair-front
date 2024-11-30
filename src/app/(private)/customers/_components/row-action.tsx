@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -6,26 +6,32 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
+
+import { Icon } from '@/lib/icons';
+import React from 'react';
+import { InputForm } from '../alter';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Icon } from "@/lib/icons";
-import React from "react";
-import { InputForm } from "../alter";
-import Link from "next/link";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { handleDelete } from '../server-action';
+import { useSession } from 'next-auth/react';
 
 interface Props {
   row: any;
 }
 export function RowAction({ row }: Props) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isOpenDrop, setIsOpenDrop] = React.useState(false);
+  const session = useSession();
+
   return (
     <div className="space-x-2">
       <Dialog modal onOpenChange={setIsOpen} open={isOpen}>
@@ -39,42 +45,38 @@ export function RowAction({ row }: Props) {
           <DialogHeader>
             <DialogTitle>Cadastro de Cliente</DialogTitle>
             <DialogDescription>
-              Formulário responsável por alterar o cadastro do cliente{" "}
+              Formulário responsável por alterar o cadastro do cliente{' '}
               <span className="text-primary">{row.name}</span>
             </DialogDescription>
           </DialogHeader>
           <InputForm row={row} setIsOpen={setIsOpen} />
         </DialogContent>
       </Dialog>
-
-      <DropdownMenu open={isOpenDrop} onOpenChange={setIsOpenDrop}>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button variant="destructive" size="icon">
             <span className="sr-only">Opções</span>
-            <Icon.moreHorizontal className="h-4 w-4" />
+            <Icon.trash className="h-4 w-4" />
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>Opções</DropdownMenuLabel>
-          <DropdownMenuItem>
-            <Link
-              className="flex items-center w-full h-full"
-              onClick={() => setIsOpenDrop(false)}
-              key={row.id}
-              href={`/pets/owner/${row.id}`}
-              passHref
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Deseja realizar esta alteração?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta alteração não poderá ser desfeita, deseja mesmo assim
+              continuar?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => handleDelete(row.id, session?.data?.user?.token!)}
             >
-              <Icon.paw className="mr-2 w-4 h-4" />
-              Pets Vinculados
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="bg-destructive">
-            <Icon.x className="mr-2 w-4 h-4" />
-            Inativar
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+              Continuar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

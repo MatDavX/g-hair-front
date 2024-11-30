@@ -9,8 +9,17 @@ const formSchema = z.object({
     message: 'O nome deve conter mais que dois caracteres.',
   }),
   cpf: z
-    .string({ required_error: 'Este campo é obrigatório.' })
-    .regex(cpfRegex, { message: 'CPF informado é inválido.' }),
+    .string()
+    .optional()
+    .refine(
+      val => {
+        if (val) return val.match(cpfRegex);
+        return true;
+      },
+      {
+        message: 'CPF informado é inválido.',
+      }
+    ),
   email: z.string().optional(),
   born: z.string().optional(),
   phone: z
