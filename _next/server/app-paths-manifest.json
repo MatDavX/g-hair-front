@@ -1,8 +1,0 @@
-{
-  "/page": "app/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/(private)/scheduling/page": "app/(private)/scheduling/page.js",
-  "/(private)/customers/page": "app/(private)/customers/page.js",
-  "/(private)/employees/page": "app/(private)/employees/page.js",
-  "/(private)/services/page": "app/(private)/services/page.js"
-}
