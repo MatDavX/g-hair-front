@@ -20,7 +20,6 @@ async function poster<T>(
 ): Promise<T> {
   const option: RequestInit = {
     method: 'POST',
-    mode: 'no-cors',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
