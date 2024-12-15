@@ -1,7 +1,8 @@
-import * as React from 'react';
-import { Plus } from 'lucide-react';
+'use client';
 
-import { Calendars } from '@/components/calendars';
+import type * as React from 'react';
+
+import { ContentSidebar } from '@/components/content-sidebar';
 import { DatePicker } from '@/components/date-picker';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -15,48 +16,70 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from '@/components/ui/sidebar';
+import { Calendar, ChartPie, HandPlatter, User, UserCog } from 'lucide-react';
 
-// This is sample data.
-const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
-  calendars: [
+const manual = {
+  tabs: [
     {
-      name: 'My Calendars',
-      items: ['Personal', 'Work', 'Family'],
+      section: 'Gerenciamento',
+      items: [
+        {
+          name: 'Agendamentos',
+          icon: Calendar,
+          href: `/scheduling?date=${new Date().toISOString()}`,
+        },
+        { name: 'Clientes', icon: User, href: '/customers' },
+        { name: 'Dashboard', icon: ChartPie, href: '/dashboard' },
+        { name: 'Funcionários', icon: UserCog, href: '/employees' },
+        { name: 'Serviços', icon: HandPlatter, href: '/services' },
+      ],
     },
     {
-      name: 'Favorites',
-      items: ['Holidays', 'Birthdays'],
+      section: 'Relatórios',
+      items: [
+        { name: 'Clientes', icon: null, href: '' },
+        { name: 'Despesas', icon: null, href: '' },
+      ],
     },
     {
-      name: 'Other',
-      items: ['Travel', 'Reminders', 'Deadlines'],
+      section: 'Configurações',
+      items: [
+        { name: 'Personal', icon: null, href: '' },
+        { name: 'Work', icon: null, href: '' },
+        { name: 'Family', icon: null, href: '' },
+      ],
     },
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+type AppSidebarProps = {
+  children: React.ReactNode;
+  user: {
+    email: string;
+    name: string;
+  };
+} & React.ComponentProps<typeof Sidebar>;
+
+export function AppSidebar({ children, user, ...props }: AppSidebarProps) {
   return (
     <Sidebar {...props}>
       <SidebarHeader className="h-16 border-b border-sidebar-border">
-        <NavUser user={data.user} />
+        <NavUser
+          user={{
+            email: user?.email as string,
+            name: user?.name as string,
+          }}
+        />
       </SidebarHeader>
       <SidebarContent>
         <DatePicker />
         <SidebarSeparator className="mx-0" />
-        <Calendars calendars={data.calendars} />
+        <ContentSidebar tabs={manual.tabs} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <Plus />
-              <span>Novo Agendamento</span>
-            </SidebarMenuButton>
+            <SidebarMenuButton>{children}</SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

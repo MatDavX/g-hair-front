@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
+import { Providers } from './provider';
 import localFont from 'next/font/local';
 import './globals.css';
+import { SessionProvider } from 'next-auth/react';
+import { Toaster } from '@/components/ui/sonner';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -26,12 +29,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body
-        cz-shortcut-listen="true"
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <SessionProvider>
+        <body
+          suppressHydrationWarning
+          cz-shortcut-listen="true"
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Toaster />
+          <Providers>{children}</Providers>
+        </body>
+      </SessionProvider>
     </html>
   );
 }

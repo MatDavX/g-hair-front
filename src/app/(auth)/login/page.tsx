@@ -1,60 +1,39 @@
 'use client';
-
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
-import { type FormTypeSchemaLogin, resolverLogin } from './schema';
-import { handleSubmit } from './server-action';
+import { AlertCircle, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Label } from '@/components/ui/label';
+import { useFormState } from '@/hooks/use-form-state';
+import { signinWithEmailAndPassword } from './server-action';
 
 export default function LoginPage() {
-  const [error, setError] = useState<string | null>(null);
-
-  const form = useForm<FormTypeSchemaLogin>({
-    resolver: resolverLogin,
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  });
-
-  async function onSubmit(values: FormTypeSchemaLogin) {
-    const body = {
-      email: values.email,
-      senha: values.password,
-    };
-
-    const response = await handleSubmit(body);
-    setError('Email ou senha inválidos.');
-  }
-
+  const router = useRouter();
+  const [{ errors, message, success }, handleSubmit, isPending] = useFormState(
+    signinWithEmailAndPassword,
+    true,
+    () => {
+      const date = new Date().toISOString();
+      router.push(`/scheduling?date=${date}`);
+    }
+  );
   return (
     <div className="flex items-center justify-center min-h-screen bg-muted">
       <Card className="w-[350px]">
         <CardHeader>
-          {error && (
+          {!success && message && (
             <Alert variant="destructive" className="mb-2">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Algo deu errado!</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
+              <AlertDescription>{message}</AlertDescription>
             </Alert>
           )}
           <CardTitle>Entrar</CardTitle>
@@ -63,52 +42,45 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
+          <form onSubmit={handleSubmit} className="space-y-2">
+            <div className="space-y-1">
+              <Label>E-mail</Label>
+              <Input
                 name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        alt="Campo de email"
-                        placeholder="Informe seu e-mail"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                alt="Campo de email"
+                placeholder="Informe seu e-mail"
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        autoComplete="current-password"
-                        alt="Campo de senha"
-                        autoSave="off"
-                        type="password"
-                        placeholder="Informe sua senha"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+              {errors?.email && (
+                <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                  {errors.email[0]}
+                </p>
+              )}
+            </div>
+            <div className="space-y-1">
+              <Label>Senha</Label>
+              <Input
+                name="senha"
+                autoComplete="current-password"
+                alt="Campo de senha"
+                autoSave="off"
+                type="password"
+                placeholder="Informe sua senha"
               />
-              <Button type="submit" className="w-full">
-                Entrar
-              </Button>
-            </form>
-          </Form>
+              {errors?.senha && (
+                <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                  {errors.senha[0]}
+                </p>
+              )}
+            </div>
+            <Button type="submit" disabled={isPending} className="w-full">
+              {isPending ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                'Entrar'
+              )}
+            </Button>
+          </form>
         </CardContent>
-        {/* <CardFooter></CardFooter> */}
       </Card>
     </div>
   );

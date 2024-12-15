@@ -2,22 +2,23 @@
 
 import { Calendar } from '@/components/ui/calendar';
 import { SidebarGroup, SidebarGroupContent } from '@/components/ui/sidebar';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export function DatePicker() {
   const { push } = useRouter();
+  const params = useSearchParams();
   function handleDayClick(day: Date) {
-    return push(`/dashboard?date=${day.toLocaleDateString()}`);
+    return push(`/scheduling?date=${day.toISOString()}`);
   }
-
   return (
     <SidebarGroup>
       <SidebarGroupContent className="px-0">
         <div>
           <Calendar
             onDayClick={day => handleDayClick(day)}
-            // onSelect={}
-            className="[&_[role=gridcell].bg-accent]:bg-sidebar-primary [&_[role=gridcell].bg-accent]:text-sidebar-primary-foreground [&_[role=gridcell]]:w-[33px]"
+            disabled={{ before: new Date() }}
+            selected={new Date(params.get('date')!)}
+            className="[&_[role=gridcell]]:w-[33px]"
           />
         </div>
       </SidebarGroupContent>
