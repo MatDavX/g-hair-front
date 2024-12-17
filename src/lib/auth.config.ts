@@ -3,6 +3,12 @@ type UserProps = {
   id: string;
   token: string;
   role: string;
+  name: {
+    nome: string;
+    telefone: string;
+    cpf: string;
+    data_nascimento: Date;
+  };
 } & DefaultSession['user'];
 
 declare module 'next-auth' {
@@ -22,11 +28,14 @@ const protectedRoutes = [
   '/customers',
   '/services',
   '/employees',
+  '/finance',
+  '/calculator',
 ];
 
 export const authConfig = {
   pages: {
     signIn: '/login',
+    signOut: '/login',
   },
   callbacks: {
     jwt({ token, user }) {

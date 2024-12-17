@@ -28,6 +28,18 @@ export type CustomerRequest = {
   ultimo_servico: string;
 };
 
+export type BoxFinanceRequest = {
+  id: string;
+  metodo_de_pagamento: string;
+  agendamento: {
+    id: string;
+    nome: string;
+  };
+  valor_total: number;
+  valor_desconto: number;
+  valor_acrescimo: number;
+} & SchedulingRequest;
+
 export type ServicesRequest = {
   id: string;
   nome: string;

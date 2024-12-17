@@ -9,13 +9,11 @@ export async function putCustomer({ rest, id_customer }: editCustomer) {
   const result = await api
     .put(`clientes/${id_customer}`, {
       json: {
-        cliente: {
-          nome: rest.name,
-          telefone: rest.phone,
-          data_nascimento: rest.born || null,
-          email: rest.email || null,
-          cpf: null,
-        },
+        nome: rest.name,
+        telefone: rest.phone,
+        data_nascimento: rest.born || null,
+        email: rest.email || null,
+        cpf: null,
       },
     })
     .json();

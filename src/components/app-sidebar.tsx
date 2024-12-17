@@ -16,7 +16,14 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from '@/components/ui/sidebar';
-import { Calendar, ChartPie, HandPlatter, User, UserCog } from 'lucide-react';
+import {
+  Box,
+  Calendar,
+  ChartPie,
+  HandPlatter,
+  User,
+  UserCog,
+} from 'lucide-react';
 
 const manual = {
   tabs: [
@@ -28,6 +35,7 @@ const manual = {
           icon: Calendar,
           href: `/scheduling?date=${new Date().toISOString()}`,
         },
+        { name: 'Caixas', icon: Box, href: '/finance' },
         { name: 'Clientes', icon: User, href: '/customers' },
         { name: 'Dashboard', icon: ChartPie, href: '/dashboard' },
         { name: 'Funcionários', icon: UserCog, href: '/employees' },
@@ -55,8 +63,13 @@ const manual = {
 type AppSidebarProps = {
   children: React.ReactNode;
   user: {
+    name: {
+      nome: string;
+      telefone: string;
+      cpf: string;
+      data_nascimento: Date;
+    };
     email: string;
-    name: string;
   };
 } & React.ComponentProps<typeof Sidebar>;
 
@@ -67,7 +80,7 @@ export function AppSidebar({ children, user, ...props }: AppSidebarProps) {
         <NavUser
           user={{
             email: user?.email as string,
-            name: user?.name as string,
+            name: user?.name.nome as string,
           }}
         />
       </SidebarHeader>

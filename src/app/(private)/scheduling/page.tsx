@@ -1,6 +1,5 @@
 import { Header } from '@/components/header';
 import type { SchedulingRequest } from '@/types/response';
-// import type { PageProps } from '@/types/type';
 import React from 'react';
 import { getCustomers } from '@/http/getCustomers';
 import { getEmployers } from '@/http/getEmployers';
@@ -28,6 +27,7 @@ export default async function Page({
     getEmployers(),
     getServices(),
   ]);
+
   return (
     <>
       <Header>

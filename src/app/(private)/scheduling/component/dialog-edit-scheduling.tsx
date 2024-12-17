@@ -60,7 +60,6 @@ export function EditSchedulingDialog({
 }: SchedulingProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isEditable, setIsEditable] = React.useState(false);
-
   const [{ errors, message, success }, handleSubmit, isPending] = useFormState(
     e => editScheduling(e, scheduling.agendamento.id),
     true,

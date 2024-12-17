@@ -67,7 +67,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center4">
+      <div className="flex items-center">
         <Input
           placeholder="Pesquisar..."
           onChange={e => table.setGlobalFilter(String(e.target.value))}

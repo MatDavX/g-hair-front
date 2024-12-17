@@ -6,6 +6,16 @@ import { getServices } from '@/http/getServices';
 import { NewSchedulingDialog } from '../../components/dialog-new-scheduling';
 import { auth } from '@/lib/auth';
 
+type Props = {
+  name: {
+    nome: string;
+    telefone: string;
+    cpf: string;
+    data_nascimento: Date;
+  };
+  email: string;
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -20,14 +30,7 @@ export default async function RootLayout({
 
   return (
     <SidebarProvider>
-      <AppSidebar
-        user={
-          session?.user as {
-            email: string;
-            name: string;
-          }
-        }
-      >
+      <AppSidebar user={session?.user as Props}>
         <NewSchedulingDialog data={{ customers, employers, services }} />
       </AppSidebar>
       <SidebarInset>
