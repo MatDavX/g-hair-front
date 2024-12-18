@@ -18,12 +18,15 @@ import {
 } from '@/components/ui/sidebar';
 import {
   Box,
+  Calculator,
   Calendar,
   ChartPie,
   HandPlatter,
   User,
   UserCog,
 } from 'lucide-react';
+import { formatDate } from '@/utils/format-to-date';
+import { addDays } from 'date-fns';
 
 const manual = {
   tabs: [
@@ -33,9 +36,10 @@ const manual = {
         {
           name: 'Agendamentos',
           icon: Calendar,
-          href: `/scheduling?date=${new Date().toISOString()}`,
+          href: `/scheduling?initial_date=${formatDate(new Date())}&final_date=${formatDate(addDays(new Date(), 7))}`,
         },
         { name: 'Caixas', icon: Box, href: '/finance' },
+        { name: 'Calculadora', icon: Calculator, href: '/calculator' },
         { name: 'Clientes', icon: User, href: '/customers' },
         { name: 'Dashboard', icon: ChartPie, href: '/dashboard' },
         { name: 'Funcionários', icon: UserCog, href: '/employees' },

@@ -51,13 +51,8 @@ type SchedulingProps = {
     services: SelectRequest[];
   };
   scheduling: SchedulingRequest;
-  disabled?: boolean;
 };
-export function EditSchedulingDialog({
-  data,
-  scheduling,
-  disabled,
-}: SchedulingProps) {
+export function EditSchedulingDialog({ data, scheduling }: SchedulingProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isEditable, setIsEditable] = React.useState(false);
   const [{ errors, message, success }, handleSubmit, isPending] = useFormState(
@@ -74,8 +69,8 @@ export function EditSchedulingDialog({
     <>
       <Dialog onOpenChange={setIsOpen} modal open={isOpen}>
         <DialogTrigger
-          disabled={disabled}
-          className=" flex w-full rounded-xl bg-secondary p-4 z-0"
+          data-isFinish={scheduling.status === 'AGENDADO'}
+          className=" flex w-full rounded-xl bg-secondary data-[isFinish=true]:border data-[isFinish=true]:border-green-300 p-4 z-0"
         >
           <div className="h-fit text-left">
             <p className="text-lg font-semibold mb-4">
@@ -105,10 +100,14 @@ export function EditSchedulingDialog({
               data-state={isEditable}
               className="absolute cursor-pointer right-12 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2  focus:ring-offset-2 disabled:pointer-events-none data-[state=true]:opacity-100"
             >
-              {!isEditable ? (
-                <LockKeyhole className="h-4 w-4" />
+              {scheduling.status === 'AGENDADO' ? (
+                !isEditable ? (
+                  <LockKeyhole className="h-4 w-4" />
+                ) : (
+                  <UnlockKeyhole className="h-4 w-4" />
+                )
               ) : (
-                <UnlockKeyhole className="h-4 w-4" />
+                <p className="font-semibold">Finalizado</p>
               )}
             </button>
             <DialogTitle>Detalhes do agendamento</DialogTitle>
@@ -124,7 +123,7 @@ export function EditSchedulingDialog({
             <div className="space-y-1">
               <Label>Data e hora do agendamento</Label>
               <Input
-                disabled={!isEditable}
+                disabled={!isEditable || scheduling.status !== 'AGENDADO'}
                 defaultValue={scheduling.agendamento.data_hora
                   .toString()
                   ?.replace('.000Z', '')}
@@ -141,7 +140,7 @@ export function EditSchedulingDialog({
             <div className="space-y-1">
               <Label>Cliente</Label>
               <Select
-                disabled={!isEditable}
+                disabled={!isEditable || scheduling.status !== 'AGENDADO'}
                 defaultValue={scheduling.cliente.id}
                 name="customer"
               >
@@ -165,7 +164,7 @@ export function EditSchedulingDialog({
             <div className="space-y-1">
               <Label>Funcionário</Label>
               <Select
-                disabled={!isEditable}
+                disabled={!isEditable || scheduling.status !== 'AGENDADO'}
                 defaultValue={scheduling.funcionario.id}
                 name="employer"
               >
@@ -189,7 +188,7 @@ export function EditSchedulingDialog({
             <div className="space-y-1">
               <Label>Serviço</Label>
               <Select
-                disabled={!isEditable}
+                disabled={!isEditable || scheduling.status !== 'AGENDADO'}
                 defaultValue={scheduling.servico.id}
                 name="service"
               >
@@ -213,7 +212,7 @@ export function EditSchedulingDialog({
             <div className="space-y-1 col-span-2">
               <Label>Descrição</Label>
               <Textarea
-                disabled={!isEditable}
+                disabled={!isEditable || scheduling.status !== 'AGENDADO'}
                 defaultValue={scheduling.agendamento.descricao}
                 name="description"
                 placeholder="Descrição do agendamento"
@@ -226,62 +225,71 @@ export function EditSchedulingDialog({
             </div>
           </form>
           <DialogFooter>
-            <div
-              data-finish={appearButtonFinish(scheduling.agendamento.data_hora)}
-              className="grid data-[finish=true]:grid-cols-3 grid-cols-2 w-full items-center gap-4"
-            >
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button
-                    variant="destructive"
-                    className="w-full"
-                    onClick={() => handleDelete(scheduling.agendamento.id)}
-                    type="button"
-                  >
-                    Remover
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Você deseja remover este agendamento?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Está ação não pode ser desfeita. Isto removerá o
-                      agendamento e os dados relacionados. Deseja continuar?
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <DialogClose>
-                      <AlertDialogAction>Continuar</AlertDialogAction>
-                    </DialogClose>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-
-              <Button
-                form="form-scheduling"
-                type="submit"
-                disabled={isPending || !isEditable}
+            {scheduling.status === 'AGENDADO' && (
+              <div
+                data-finish={appearButtonFinish(
+                  scheduling.agendamento.data_hora
+                )}
+                className="grid data-[finish=true]:grid-cols-3 grid-cols-2 w-full items-center gap-4"
               >
-                Confirmar
-              </Button>
-              {appearButtonFinish(scheduling.agendamento.data_hora) && (
-                <FinishSchedulingDialog
-                  id={scheduling.agendamento.id}
-                  setCloseModal={setIsOpen}
-                />
-              )}
-              {!success && message && (
-                <Alert className="col-span-2">
-                  <p className="text-xs font-medium text-red-500 dark:text-red-400">
-                    {message}
-                  </p>
-                </Alert>
-              )}
-            </div>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="destructive"
+                      className="w-full"
+                      type="button"
+                    >
+                      Remover
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Você deseja remover este agendamento?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Está ação não pode ser desfeita. Isto removerá o
+                        agendamento e os dados relacionados. Deseja continuar?
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <DialogClose>
+                        <AlertDialogAction
+                          onClick={() =>
+                            handleDelete(scheduling.agendamento.id)
+                          }
+                        >
+                          Continuar
+                        </AlertDialogAction>
+                      </DialogClose>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+
+                <Button
+                  form="form-scheduling"
+                  type="submit"
+                  disabled={isPending || !isEditable}
+                >
+                  Confirmar
+                </Button>
+                {appearButtonFinish(scheduling.agendamento.data_hora) && (
+                  <FinishSchedulingDialog
+                    id={scheduling.agendamento.id}
+                    setCloseModal={setIsOpen}
+                  />
+                )}
+                {!success && message && (
+                  <Alert className="col-span-2">
+                    <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                      {message}
+                    </p>
+                  </Alert>
+                )}
+              </div>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

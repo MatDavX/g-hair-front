@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { ChevronRight, LucideProps } from 'lucide-react';
+import { ChevronRight, type LucideProps } from 'lucide-react';
 
 import {
   Collapsible,

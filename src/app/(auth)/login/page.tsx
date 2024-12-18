@@ -14,6 +14,8 @@ import { useRouter } from 'next/navigation';
 import { Label } from '@/components/ui/label';
 import { useFormState } from '@/hooks/use-form-state';
 import { signinWithEmailAndPassword } from './server-action';
+import { formatDate } from '@/utils/format-to-date';
+import { addDays } from 'date-fns';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -21,8 +23,9 @@ export default function LoginPage() {
     signinWithEmailAndPassword,
     true,
     () => {
-      const date = new Date().toISOString();
-      router.push(`/scheduling?date=${date}`);
+      router.push(
+        `/scheduling?initial_date=${formatDate(new Date())}&final_date=${formatDate(addDays(new Date(), 7))}`
+      );
     }
   );
   return (

@@ -15,11 +15,14 @@ export default async function Page({
   const param = await searchParams;
   const date = param.date ? new Date(param.date.toString()) : new Date();
   const response = await api
-    .get<SchedulingRequest[]>(`agendamentos?data_fim=${date}`, {
-      next: {
-        tags: ['cache-scheduling'],
-      },
-    })
+    .get<SchedulingRequest[]>(
+      `agendamentos?data_inicio=${param.initial_date}&data_fim=${param.final_date}`,
+      {
+        next: {
+          tags: ['cache-scheduling'],
+        },
+      }
+    )
     .json();
 
   const [customers, employers, services] = await Promise.all([
@@ -43,7 +46,6 @@ export default async function Page({
         <div className="grid grid-cols-2 gap-4">
           {response.map((item, index) => (
             <EditSchedulingDialog
-              disabled={item.status !== 'AGENDADO'}
               key={index as number}
               data={{ customers, employers, services }}
               scheduling={item}

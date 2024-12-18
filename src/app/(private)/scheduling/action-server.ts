@@ -68,6 +68,7 @@ export async function createScheduling(body: FormData) {
   const result = formSchema.safeParse(Object.fromEntries(body));
 
   if (!result.success) {
+    console.log('a');
     const errors = result.error.flatten().fieldErrors;
     return { success: false, message: null, errors };
   }

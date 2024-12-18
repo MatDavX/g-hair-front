@@ -27,6 +27,7 @@ import { Button } from '@/components/ui/button';
 import { createScheduling } from '@/app/(private)/scheduling/action-server';
 import React from 'react';
 import { toast } from 'sonner';
+import { format } from 'date-fns';
 type SchedulingProps = {
   data: {
     customers: SelectRequest[];
@@ -45,12 +46,15 @@ export function NewSchedulingDialog({ data }: SchedulingProps) {
       toast.success('Horário agendado com sucesso.');
     }
   );
-
+  const maxDate = format(new Date(), "yyyy-MM-dd'T'HH:mm");
+  console.log(errors);
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogTrigger className="flex items-center gap-2">
-        <Plus className="h-4 w-4" />
-        <span>Novo Agendamento</span>
+      <DialogTrigger asChild>
+        <div className="flex w-full h-full items-center gap-2">
+          <Plus className="h-4 w-4" />
+          <span>Novo Agendamento</span>
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -68,6 +72,7 @@ export function NewSchedulingDialog({ data }: SchedulingProps) {
             <Label>Data e hora do agendamento</Label>
             <Input
               name="calendar"
+              min={maxDate}
               type="datetime-local"
               alt="Campo de agendamento"
             />
