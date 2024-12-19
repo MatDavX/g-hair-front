@@ -1,3 +1,5 @@
+import { formatDate } from '@/utils/format-to-date';
+import { addDays } from 'date-fns';
 import type { DefaultSession, NextAuthConfig } from 'next-auth';
 type UserProps = {
   id: string;
@@ -58,11 +60,15 @@ export const authConfig = {
       const isProtectedRoute = protectedRoutes.includes(path);
       if (isProtectedRoute) {
         if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
+        return false;
       }
       if (isLoggedIn) {
-        const date = new Date().toISOString();
-        return Response.redirect(new URL(`/scheduling?date=${date}`, nextUrl));
+        return Response.redirect(
+          new URL(
+            `/scheduling?initial_date=${formatDate(new Date())}&final_date=${formatDate(addDays(new Date(), 7))}`,
+            nextUrl
+          )
+        );
       }
       return true;
     },

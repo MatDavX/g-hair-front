@@ -43,6 +43,7 @@ export const columns = [
         cliente: row.original.cliente,
         funcionario: row.original.funcionario,
         servico: row.original.servico,
+        status: row.original.status,
       };
       return <ViewSchedulingDialog scheduling={scheduling} />;
     },

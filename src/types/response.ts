@@ -47,6 +47,46 @@ export type ServicesRequest = {
   descricao: string;
 };
 
+export type CalculatorRequest = {
+  agendamentos: {
+    id: string;
+    data_hora: string;
+    servico_id: string;
+    funcionario_id: string;
+    cliente_id: string;
+    status: string;
+    descricao: string;
+    created_at: string;
+    updated_at: string;
+    folhaId: string;
+    caixa: {
+      agendamento_id: string;
+      id: string;
+      metodo_de_pagamento_id: string;
+      status: string;
+      valor_acrescimo: number;
+      valor_desconto: number;
+      valor_total: number;
+    };
+  }[];
+  funcionario: {
+    id: string;
+    nome: string;
+    data_nascimento: string;
+    cpf: string;
+    telefone: string;
+    empresa_id: string;
+    endereco_id: string;
+    ativo: boolean;
+    comissao: number;
+    created_at: string;
+    updated_at: string;
+  };
+  comissao: number;
+  total_servicos: number;
+  total_pagar: number;
+};
+
 export type EmployerRequest = {
   id: string;
   nome: string;
