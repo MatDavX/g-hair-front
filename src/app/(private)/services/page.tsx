@@ -11,13 +11,13 @@ export default async function Page() {
 
   return (
     <>
-      {/* <Header>
+      <Header>
         <p className="font-medium mr-auto text-lg">Serviços</p>
       </Header>
       <div className="mt-4 space-y-4">
         <NewServiceDialog />
         <DataTable data={response} columns={columns} />
-      </div> */}
+      </div>
     </>
   );
 }

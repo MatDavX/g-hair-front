@@ -19,15 +19,40 @@ import { toast } from 'sonner';
 import { createEmployer } from '../action-server';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useMutation } from '@tanstack/react-query';
+import { getCEP } from '@/http/getCEP';
+import { Separator } from '@/components/ui/separator';
 
 export function NewEmployerDialog() {
   const [isOpen, setIsOpen] = React.useState(false);
-
+  const [employer, setEmployer] = React.useState({
+    state: '',
+    city: '',
+    street: '',
+    neighborhood: '',
+  });
+  const { data: data_cep, mutate } = useMutation({
+    mutationFn: (cep: string) => getCEP(cep),
+    onSuccess: e => {
+      setEmployer({
+        state: e.uf,
+        city: e.localidade,
+        street: e.logradouro,
+        neighborhood: e.bairro,
+      });
+    },
+  });
   const [{ errors, message, success }, handleSubmit, isPending] = useFormState(
-    e => createEmployer(e),
+    e => createEmployer(e, employer),
     false,
     () => {
       setIsOpen(false);
+      setEmployer({
+        state: '',
+        city: '',
+        street: '',
+        neighborhood: '',
+      });
       toast.success('Funcionário criado com sucesso.');
     }
   );
@@ -71,24 +96,10 @@ export function NewEmployerDialog() {
           </div>
           <div className="space-y-1">
             <Label>CPF</Label>
-            <Input type="date" name="cpf" />
+            <Input type="number" name="cpf" placeholder="0000000000" />
             {errors?.cpf && (
               <p className="text-xs font-medium text-red-500 dark:text-red-400">
                 {errors.cpf[0]}
-              </p>
-            )}
-          </div>
-
-          <div className="space-y-1">
-            <Label>Comissão</Label>
-            <Input
-              type="number"
-              placeholder="Informe uma comissão"
-              name="commission"
-            />
-            {errors?.commission && (
-              <p className="text-xs font-medium text-red-500 dark:text-red-400">
-                {errors.commission[0]}
               </p>
             )}
           </div>
@@ -98,6 +109,103 @@ export function NewEmployerDialog() {
             {errors?.phone && (
               <p className="text-xs font-medium text-red-500 dark:text-red-400">
                 {errors.phone[0]}
+              </p>
+            )}
+          </div>
+          <Separator className="col-span-2" />
+          <div className="space-y-1">
+            <Label>CEP</Label>
+            <Input
+              onChange={e => {
+                if (e.target.value.length === 8) {
+                  return mutate(e.target.value);
+                }
+              }}
+              type="number"
+              placeholder="Informe um CEP"
+              name="cep"
+            />
+            {errors?.cep && (
+              <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                {errors.cep[0]}
+              </p>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label>Número</Label>
+            <Input
+              type="number"
+              placeholder="Informe um número"
+              name="number"
+            />
+            {errors?.number && (
+              <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                {errors.number[0]}
+              </p>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label>Estado</Label>
+            <Input
+              disabled
+              value={data_cep?.uf}
+              placeholder="Estado"
+              name="state"
+            />
+            {errors?.state && (
+              <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                {errors.state[0]}
+              </p>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label>Cidade</Label>
+            <Input
+              disabled
+              value={data_cep?.localidade}
+              placeholder="Cidade"
+              name="city"
+            />
+            {errors?.city && (
+              <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                {errors.city[0]}
+              </p>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label>Logradouro</Label>
+            <Input
+              disabled
+              value={data_cep?.logradouro}
+              placeholder="Logradouro"
+              name="street"
+            />
+            {errors?.street && (
+              <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                {errors.street[0]}
+              </p>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Label>Bairro</Label>
+            <Input
+              disabled
+              value={data_cep?.bairro}
+              placeholder="Bairro"
+              name="neighborhood"
+            />
+            {errors?.neighborhood && (
+              <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                {errors.neighborhood[0]}
+              </p>
+            )}
+          </div>
+          <div className="space-y-1 col-span-2">
+            <Label>Complemento</Label>
+            <Input placeholder="Informe um complemento" name="complement" />
+            {errors?.complement && (
+              <p className="text-xs font-medium text-red-500 dark:text-red-400">
+                {errors.complement[0]}
               </p>
             )}
           </div>

@@ -5,7 +5,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import type { EmployerRequest } from '@/types/response';
 import { type ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { EditEmployerDialog } from './dialog-edit-employer';
-import { formatNumberToCurrency } from '@/utils/format-to-currency';
 
 const columnHelper = createColumnHelper<EmployerRequest>();
 
@@ -45,13 +44,6 @@ export const columns = [
       return <RowTable>{cell.getValue()}</RowTable>;
     },
   }),
-  columnHelper.accessor('comissao', {
-    id: 'Comissão',
-    header: ({ column }) => <HeaderTable column={column}>Comissão</HeaderTable>,
-    cell: ({ cell }) => {
-      return <RowTable>{formatNumberToCurrency(cell.getValue())}</RowTable>;
-    },
-  }),
   columnHelper.accessor('ativo', {
     id: 'Ativo',
     header: ({ column }) => <HeaderTable column={column}>Ativo</HeaderTable>,
@@ -63,10 +55,10 @@ export const columns = [
   columnHelper.display({
     id: 'action',
     cell: ({ cell }) => {
-      const service = cell.row.original;
+      const user = cell.row.original;
       return (
         <RowTable className="text-right">
-          <EditEmployerDialog service={service} />
+          <EditEmployerDialog user={user} />
         </RowTable>
       );
     },

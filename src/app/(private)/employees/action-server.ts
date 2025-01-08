@@ -40,17 +40,33 @@ export async function editCustomer(body: FormData, id_service: string) {
 //   return { success: true, message: null, errors: null };
 // }
 
-export async function createEmployer(body: FormData) {
+export async function createEmployer(
+  body: FormData,
+  employer: {
+    city: string;
+    state: string;
+    street: string;
+    neighborhood: string;
+  }
+) {
   const result = formSchema.safeParse(Object.fromEntries(body));
 
   if (!result.success) {
     const errors = result.error.flatten().fieldErrors;
     return { success: false, message: null, errors };
   }
-
-  const { name, commission, cpf, phone, born } = result.data;
+  const { name, cpf, cep, phone, born, number, complement } = result.data;
   try {
-    await postEmployer({ name, commission, cpf, phone, born });
+    await postEmployer({
+      name,
+      cpf,
+      cep,
+      phone,
+      born,
+      number,
+      complement,
+      ...employer,
+    });
     revalidateTag('cache-employer');
   } catch (err) {
     if (err instanceof HTTPError) {

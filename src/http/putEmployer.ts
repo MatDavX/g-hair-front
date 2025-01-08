@@ -3,21 +3,24 @@ import type { formSchema } from '@/app/(private)/employees/schema';
 import { api } from '@/lib/ky';
 import type { z } from 'zod';
 
-export async function postEmployer({
-  name,
-  cpf,
-  cep,
-  number,
-  city,
-  state,
-  street,
-  neighborhood,
-  complement,
-  phone,
-  born,
-}: z.infer<typeof formSchema>) {
+export async function postEmployer(
+  {
+    name,
+    cpf,
+    cep,
+    number,
+    city,
+    state,
+    street,
+    neighborhood,
+    complement,
+    phone,
+    born,
+  }: z.infer<typeof formSchema>,
+  id: number
+) {
   const result = await api
-    .post('funcionarios', {
+    .put(`funcionarios/${id}`, {
       json: {
         funcionario: {
           nome: name,

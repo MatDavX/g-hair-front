@@ -53,14 +53,6 @@ const manual = {
         { name: 'Despesas', icon: null, href: '' },
       ],
     },
-    {
-      section: 'Configurações',
-      items: [
-        { name: 'Personal', icon: null, href: '' },
-        { name: 'Work', icon: null, href: '' },
-        { name: 'Family', icon: null, href: '' },
-      ],
-    },
   ],
 };
 

@@ -19,6 +19,17 @@ export type SchedulingRequest = {
   status: string;
 };
 
+export type ViaCepRequest = {
+  erro: { erro: boolean };
+  bairro: string;
+  cep: string;
+  complemento: string;
+  estado: string;
+  localidade: string;
+  logradouro: string;
+  uf: string;
+};
+
 export type CustomerRequest = {
   id: string;
   nome: string;

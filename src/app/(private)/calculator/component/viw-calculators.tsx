@@ -71,16 +71,18 @@ export function ViwCalculators({ data }: Props) {
           <p className="p-4">Nenhum resultado encontrado</p>
         )}
       </ScrollArea>
-      <p className="grid gap-4 px-4">
-        <p>
-          <span className="font-semibold">Total em serviços: </span>
-          {formatNumberToCurrency(calculator_result?.total_servicos!)}{' '}
+      {calculator_result && (
+        <p className="grid gap-4 px-4">
+          <p>
+            <span className="font-semibold">Total em serviços: </span>
+            {formatNumberToCurrency(calculator_result?.total_servicos!)}{' '}
+          </p>
+          <p className="mb-4">
+            <span className="font-semibold">Valor comissão: </span>
+            {formatNumberToCurrency(calculator_result?.total_pagar!)}{' '}
+          </p>
         </p>
-        <p className="mb-4">
-          <span className="font-semibold">Total a pagar: </span>
-          {formatNumberToCurrency(calculator_result?.total_pagar!)}{' '}
-        </p>
-      </p>
+      )}
     </div>
   );
 }
